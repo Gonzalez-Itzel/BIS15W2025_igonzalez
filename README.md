@@ -1,5 +1,3 @@
-# BIS15W2025_igonzalez
-
 # Welcome to my repository! 
 Hi, I'm **Itzel Gonzalez**! 
 
