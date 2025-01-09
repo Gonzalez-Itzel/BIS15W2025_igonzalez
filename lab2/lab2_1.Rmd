@@ -215,7 +215,8 @@ anyNA(new_vector) # this is useful for determining if there are NA values that p
 
 4. Recalculate the mean using the following code chunk. Why is the useful?  
 ```{r}
-mean(new_vector, na.rm = TRUE)
+mean(new_vector, na.rm = TRUE) # na.rm will remove an NA
+                               # Remove NA if present
 
 ```
 
