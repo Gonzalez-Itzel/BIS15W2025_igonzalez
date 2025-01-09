@@ -48,22 +48,28 @@ mean(mountains$height_ft)
 
 **7. When were each of these mountains first climbed (i.e. in what year)? Make a new vector `first_climbed` and add it to the `mountains` data frame.**
 ```{r}
-first_climbed <- c(1953, 1954,1955, 1956)
+first_climbed <- c(1953, 1954, 1955, 1956, 1955)
+mountains <- data.frame(name, height_ft, height_m, first_climbed)
+
 ```
 
 **8. How many times have each of these mountains been climbed? Make a new vector `summits` and add it to the `mountains` data frame.**
 ```{r}
-
+summits <- c(5656, 283, 243, 461, 361)
+mountains <- data.frame(name, height_ft, height_m, first_climbed, summits)
 ```
 
 **9. Which mountain has the highest number of fatalities? Make a new vector `fatalities` and add it to the `mountains` data frame.**
 ```{r}
+fatalities <- c(223, 40, 40, 13, 31)
+mountains <- data.frame(name, height_ft, height_m, first_climbed, summits, fatalities)
+mountains
 
 ```
 
 **10. Write your data frame to a .csv file.**
 ```{r}
-
+write.csv(mountains, "mountains.csv", row.names = FALSE)
 ```
 
 ## Knit and Upload
