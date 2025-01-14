@@ -24,7 +24,13 @@ library("tidyverse")
 ## Practice
 In your lab 3 folder there is another folder titled `data`. Inside the `data` folder there is a `.csv` titled `Gaeta_etal_CLC_data.csv`. Open this data and store them as an object called `fish`.  
 
-The data are from: Gaeta J., G. Sass, S. Carpenter. 2012. Biocomplexity at North Temperate Lakes LTER: Coordinated Field Studies: Large Mouth Bass Growth 2006. Environmental Data Initiative.  [link](https://portal.edirepository.org/nis/mapbrowse?scope=knb-lter-ntl&identifier=267)  
+The data are from: Gaeta J., G. Sass, S. Carpenter. 2012. Biocomplexity at North Temperate Lakes LTER: Coordinated Field Studies: Large Mouth Bass Growth 2006. Environmental Data Initiative.  [link](https://portal.edirepository.org/nis/mapbrowse?scope=knb-lter-ntl&identifier=267)
+
+```{r}
+getwd()
+```
+
+
 ```{r}
 fish <- read_csv("data/Gaeta_etal_CLC_data.csv")
 ```
@@ -36,73 +42,118 @@ Once data have been uploaded, you may want to get an idea of its structure, cont
 
 We can summarize our data frame with the`summary()` function.  
 ```{r}
-#summary(fish)
+# summarizes data frame
+summary(fish)
 ```
 
 `glimpse()` is another useful summary function.
 ```{r}
-#glimpse(fish)
+# cleaner, and tells you what class each variable belongs to
+glimpse(fish)
 ```
 
 `nrow()` gives the numbers of rows.
 ```{r}
-#nrow(fish)
+# can ask how many rows
+nrow(fish)
 ```
 
 `ncol` gives the number of columns.
 ```{r}
-#ncol(fish)
+# can how ask how many columns
+ncol(fish)
 ```
 
 `dim()` gives the dimensions.
 ```{r}
-#dim(fish)
+# give the dimensions of the data frame
+dim(fish)
 ```
 
 `names` gives the column names.
 ```{r}
-#names(fish)
+# you will use this alot
+names(fish)
 ```
 
 `head()` prints the first n rows of the data frame.
 ```{r}
-#head(fish)
+# reads you the first n rows of the data frames
+head(fish)
 ```
 
 `tail()` prinst the last n rows of the data frame.
 ```{r}
-#tail(fish)
+# reads you the last n rows of the data frames
+tail(fish)
 ```
 
 `table()` is useful when you have a limited number of categorical variables. It produces fast counts of the number of observations in a variable. We will come back to this later... 
 ```{r}
-#table(fish$lakeid)
+# gives number of observations for each of the factors/variables
+table(fish$lakeid)
 ```
 
 ## Select
 Select is a way of sorting data frames by pulling out variables (columns) of interest.
 ```{r}
-#select(fish, lakeid, length)
+# pulls out variables (columns) of interest
+# first is the name of the data frame, variale, variable
+select(fish, lakeid, length)
 ```
 
 ## Filter
 Filter is a way of pulling out observations that meet specific criteria in a variable. We will work a lot more with this in the next lab.  
+
 ```{r}
-#filter(fish, length<=100)
+names(fish)
+```
+
+```{r}
+# pulls out observations
+filter(fish, length<=100)
 ```
 
 ## Practice
 1. Load the data `mammal_lifehistories_v2.csv` and place it into a new object called `mammals`.
 
+```{r}
+mammals <- read_csv("data/mammal_lifehistories_v2.csv")
+```
+
+
 2. Provide the dimensions of the data frame.
+```{r}
+dim(mammals)
+```
+
 
 3. Check the column names in the data frame. 
+```{r}
+names(mammals)
+```
+
 
 4. Use `str()` to show the structure of the data frame and its individual columns; compare this to `glimpse()`. 
+```{r}
+str(mammals)
+```
+```{r}
+glimpse(mammals)
+```
+
 
 5. Try the `table()` command to produce counts of mammal order, family, and genus.  
+```{r}
+mammal_data <- select(mammals, order, family, Genus)
+table(mammals$mammal_data)
+```
+
 
 6. Use the `filter()` command to pull out mammals that have a gestation period greater than or equal to one year.  
+```{r}
+filter(mammals, gestation>=1)
+```
 
 ## Wrap-up
 Please review the learning goals and be sure to use the code here as a reference when completing the homework.  

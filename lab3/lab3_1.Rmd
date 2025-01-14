@@ -19,7 +19,7 @@ output:
 ## Load tidyverse
 ```{r message=FALSE, warning=FALSE}
 library("tidyverse")
-```
+``` 
 
 ## Data Frames
 During lab 2, you learned how to work with vectors and data frames. For the remainder of the course, we will work exclusively with data frames. Recall that data frames store multiple classes of data. Last time, you were shown how to build data frames using the `data.frame()` and `tibble` commands.  
@@ -33,14 +33,39 @@ spring <- c("Buckeye", "Buckeye", "Buckeye", "Benton", "Benton", "Benton", "Trav
 ```
 
 1. Build a data frame called `hsprings` with the above data. Name the temperature column `temp_C`. Print out the data frame.  
+```{r}
+hsprings <- data.frame(temp_C=temp, name, spring)
+hsprings
+```
+
 
 2. Change the column titled `name` to `scientist`, leave the other column names the same. Print out the data frame names.  
+```{r}
+hsprings <- data.frame(temp_C, scientist=name, spring)
+hsprings
+
+```
+
 
 3. Our scientists forgot to record the depth data for each spring. Here it is as a vector, add it as a new column called depth_ft: `c(4.15, 4.13, 4.12, 3.21, 3.23, 3.20, 5.67, 5.65, 5.66)`. Print out the data frame.
+```{r}
+depth_ft <- c(4.15, 4.13, 4.12, 3.21, 3.23, 3.20, 5.67, 5.65, 5.66)
+hsprings <- data.frame(temp_C, scientist, spring, depth_ft)
+hsprings
+```
+
 
 4. Calculate the mean temperature of all of the temperature measurements.
+```{r}
+mean(hsprings$temp_C)
+```
+
 
 5. Save your hot springs data as a `.csv` file! Do not allow row names. 
+```{r}
+write.csv(hsprings, 'hsprings_data.csv', row.names = FALSE)
+```
+
 
 6. Go to the environment panel and push the broom to clear your environment.  
 
@@ -64,11 +89,18 @@ Here we open a .csv file. Since we are using the tidyverse, we open the file usi
 In the previous part of the lab, you exported a `.csv` of hot springs data. Let's try to reload that `.csv`.  
 ```{r}
 hot_springs <- read_csv("hsprings_data.csv")
+view(hot_springs)
 ```
 
 Use the `str()` function to get an idea of the data structure of `hot_springs`.  
 ```{r}
 str(hot_springs)
+```
+```{r}
+summary(hot_springs) # be careful with the math 
+```
+```{r}
+class(hot_springs$temp_C)
 ```
 
 What is the class of the scientist column? Change it to factor and then show the levels of that factor.  
@@ -101,6 +133,15 @@ levels(hot_springs$spring)
 
 ## Practice
 1. As part of homework 2, you saved data on the five tallest mountains in the world. Reload that data below and use the `str()` function to explore it's structure.  
+
+
+```{r}
+setwd("/Users/itzel08/Desktop/BIS15W2025_igonzalez/lab2")
+mountains <- read_csv("mountains.csv")
+```
+
+
+
 
 ## That's it! Let's take a break and then move on to part 2! 
 
