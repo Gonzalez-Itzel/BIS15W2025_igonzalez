@@ -55,23 +55,39 @@ max(homerange$mean.mass.g)
 
 **7. Change the class of the variables `taxon` and `order` to factors and display their levels.**  
 ```{r}
+homerange$taxon <- as.factor(homerange$taxon)
+class(homerange$taxon)
+levels(homerange$taxon)
+```
 
+```{r}
+homerange$order <- as.factor(homerange$order)
+class(homerange$order)
+levels(homerange$order)
 ```
 
 **8. Use `select` to pull out the variables taxon and common.name.**  
 ```{r}
-
+select(homerange, taxon, common.name)
 ```
 
 **9. Use `filter` to pull out all mammals from the data.**
 ```{r}
-
+filter(homerange, taxon == 'mammals')
 ```
 
 **10. What is the largest `mean.hra.m2` for mammals? This is a very large number! Which animal has this homerange? Look them up online and see if you can figure out why this number is so large.**
-```{r}
 
+The reindeer has the largest homerange (from the mammals) because of its migratory behavior when food is scarce in the winter.
+```{r}
+mammals <- filter(homerange, taxon == 'mammals')
+mammals
 ```
+```{r}
+max(mammals$mean.hra.m2)
+filter(mammals, mean.hra.m2 == 3550830977)
+```
+
 
 ## Knit and Upload
 Please knit your work as a .pdf or .html file and upload to Canvas. Homework is due before the start of the next lab. No late work is accepted. Make sure to use the formatting conventions of RMarkdown to make your report neat and clean!  
