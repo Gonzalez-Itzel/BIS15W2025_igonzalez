@@ -96,7 +96,8 @@ glimpse(msleep)
 
 **4. The variable `conservation` categorizes the conservation status of the mammals in the data. How many mammals are endangered?**
 
-Ther are 4 mammals that are endangered
+There are 4 mammals that are endangered
+
 
 ``` r
 filter(msleep, conservation == "en")
@@ -153,6 +154,7 @@ large_mammals <- filter(msleep, bodywt >= 200)
 ```
 
 **9. Do large or small animals sleep longer on average?** 
+
 Smaller animals sleep longer on average
 
 

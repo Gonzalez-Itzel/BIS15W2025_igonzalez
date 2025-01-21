@@ -455,7 +455,7 @@ an idea of the structure of the data.</strong></p>
 <p><strong>4. The variable <code>conservation</code> categorizes the
 conservation status of the mammals in the data. How many mammals are
 endangered?</strong></p>
-<p>Ther are 4 mammals that are endangered</p>
+<p>There are 4 mammals that are endangered</p>
 <pre class="r"><code>filter(msleep, conservation == &quot;en&quot;)</code></pre>
 <pre><code>## # A tibble: 4 × 11
 ##   name    genus vore  order conservation sleep_total sleep_rem sleep_cycle awake
@@ -491,7 +491,8 @@ greater than or equal to 200kg body weight. Make two new dataframes
 <pre class="r"><code>small_mammals &lt;- filter(msleep,bodywt &lt;= 1)
 large_mammals &lt;- filter(msleep, bodywt &gt;= 200)</code></pre>
 <p><strong>9. Do large or small animals sleep longer on
-average?</strong> Smaller animals sleep longer on average</p>
+average?</strong></p>
+<p>Smaller animals sleep longer on average</p>
 <pre class="r"><code>max(small_mammals$sleep_total)</code></pre>
 <pre><code>## [1] 19.9</code></pre>
 <pre class="r"><code>max(large_mammals$sleep_total)</code></pre>
