@@ -35,7 +35,10 @@ dim(homerange)
 ```
 
 **3. Are there any NA's in the dataframe? Try using summary to determine which variables have more or less NA's.**
+
+There are 502 NA's in each column for the following variables: preymass, log10.preymass, and PPMR. 
 ```{r}
+anyNA(homerange)
 summary(homerange)
 ```
 
@@ -45,6 +48,11 @@ names(homerange)
 ```
 
 **5. Based on the summary output, do you see anything in the data that looks strange? Think like a biologist and consider the variables.**  
+
+The variable "mean.mass.g" has a minimum of "0", which I think looks strange because living animals should have some mass. 
+```{r}
+summary(homerange)
+```
 
 
 **6. The `min` and `max` functions can be used to find the minimum and maximum values in a vector. Use these functions to find the minimum and maximum values for the variable `mean.mass.g`.**  
@@ -78,7 +86,9 @@ filter(homerange, taxon == 'mammals')
 
 **10. What is the largest `mean.hra.m2` for mammals? This is a very large number! Which animal has this homerange? Look them up online and see if you can figure out why this number is so large.**
 
-The reindeer has the largest homerange (from the mammals) because of its migratory behavior when food is scarce in the winter.
+https://esajournals.onlinelibrary.wiley.com/doi/epdf/10.1890/0012-9658%281999%29080%5B0337%3AECATRB%5D2.0.CO%3B2?saml_referrer
+
+According to this article, this home range is so large because it is associated with the body size of the mammal. The larger the body size of a mammal, the more energy and food they will require which could explain why they need a larger home range to search for food. 
 ```{r}
 mammals <- filter(homerange, taxon == 'mammals')
 mammals
