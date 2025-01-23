@@ -1,7 +1,7 @@
 ---
 title: "Homework 4"
 author: "Itzel Gonzalez"
-date: "2025-01-21"
+date: "2025-01-23"
 output:
   html_document: 
     theme: spacelab
@@ -96,7 +96,7 @@ glimpse(msleep)
 
 **4. The variable `conservation` categorizes the conservation status of the mammals in the data. How many mammals are endangered?**
 
-There are 4 mammals that are endangered
+There are 4 mammals that are endangered.
 
 
 ``` r
@@ -155,7 +155,7 @@ large_mammals <- filter(msleep, bodywt >= 200)
 
 **9. Do large or small animals sleep longer on average?** 
 
-Smaller animals sleep longer on average
+Smaller animals sleep longer on average.
 
 
 ``` r
@@ -176,6 +176,9 @@ max(large_mammals$sleep_total)
 ```
 
 **10. Which animal sleeps the least among the entire dataframe?**
+
+The giraffe sleeps the least among the entire dataframe.
+
 
 ``` r
 min(msleep$sleep_total)
