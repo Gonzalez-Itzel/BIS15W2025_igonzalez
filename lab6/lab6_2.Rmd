@@ -25,6 +25,7 @@ library("janitor")
 For this lab, we will use the built-in data on mammal sleep patterns. From: _V. M. Savage and G. B. West. A quantitative, theoretical framework for understanding mammalian sleep. Proceedings of the National Academy of Sciences, 104 (3):1051-1056, 2007_.
 ```{r}
 msleep <- msleep
+view(msleep)
 ```
 
 ## `summarize()`
@@ -36,10 +37,10 @@ large <- msleep %>%
   filter(bodywt > 200) %>% 
   arrange(desc(bodywt))
 large
-```
+``` 
 
 ```{r}
-mean(large$sleep_total)
+mean(large$sleep_total) # this is base R code, calculate the mean sleep total in the large data base
 ```
 
 We can accomplish the same task using the `summarize()` function.  
@@ -47,38 +48,48 @@ We can accomplish the same task using the `summarize()` function.
 Large mammals
 ```{r}
 msleep %>% 
-  filter(bodywt>200) %>% 
-  summarize(mean_sleep_lg=mean(sleep_total))
+  filter(bodywt>200) %>% # pull out the big ones
+  summarize(mean_sleep_lg=mean(sleep_total)) # mean_sleeplg is the new variable, summarize()` will produce summary statistics for a given variable in a data frame
 ```
 
 Small mammals
 ```{r}
 msleep %>% 
   filter(bodywt<10)%>% 
-  summarize(mean_sleep_sm=mean(sleep_total))
+  summarize(mean_sleep_sm=mean(sleep_total)) # advantage for multiple variables you want to calculate 
 ```
 
 You can also combine functions to make summaries for multiple variables.
 ```{r}
 msleep %>% 
   filter(bodywt>200) %>% 
-  summarize(mean_sleep_lg=mean(sleep_total),
+  summarize(mean_sleep_lg=mean(sleep_total), # can do it all in one, summarizes data frame to our question and analysis
             min_sleep_lg=min(sleep_total),
             max_sleep_lg=max(sleep_total),
             sd_sleep_lg=sd(sleep_total),
-            total=n())
+            total=n()) # total number of observations
 ```
 
 Maybe you want to summarize all of the numeric variables in the data frame. You can use the `where()` function to select only the numeric variables.
 ```{r}
 msleep %>% 
   select(where(is.numeric)) %>% 
-  summarize(across(everything(), mean, na.rm=TRUE))
+  summarize(across(everything(), mean, na.rm=TRUE)) # summarizes the mean across all numberic and observation variables 
+```
+```{r}
+msleep %>% 
+  select(where(is.numeric)) %>% 
+  summarize_all(mean, na.rm=TRUE) # summarizes the mean across all numberic and observation variables 
 ```
 
 ## Practice
 1. What is the mean, min, and max `bodywt` for the taxonomic order Primates? Provide the total number of observations.
 ```{r}
+msleep %>% 
+  select(name, genus, order, bodywt) %>% 
+  filter(order=='Primates') %>%  
+  summarize(primate_mean_sleep=mean(bodywt),
+  total=n())
 
 ```
 
@@ -92,20 +103,42 @@ Here we show the number of distinct genera over 100 in body weight.
 ```{r}
 msleep %>% 
   filter(bodywt > 100) %>% 
-  summarize(n_genera=n_distinct(genus))
+  summarize(n_genera=n_distinct(genus)) # number of obsevations in categorical 
+
 ```
+
+```{r}
+bodyweight_small <- msleep %>% 
+  filter(bodywt > 100)
+
+unique(bodyweight_small$genus) # this will give a list
+```
+
+```{r}
+bodyweight_small %>% 
+  distinct(genus) %>% 
+  pull(genus)
+```
+
+
 
 There are many other useful summary statistics, depending on your needs: sd(), min(), max(), median(), sum(), n() (returns the length of a column), first() (returns first value in a column), last() (returns last value in a column) and n_distinct() (number of distinct values in a column).
 
 ## Practice
 1. How many genera are represented in the msleep data frame?
 ```{r}
-
+msleep %>% 
+  summarize(n_genera=n_distinct(genus))
 ```
 
 2. What are the min, max, and mean `sleep_total` for all of the mammals? Be sure to include the total n.
 ```{r}
-
+msleep %>% 
+  select(name, genus, order, sleep_total) %>% 
+  summarize(min_sleep_total=min(sleep_total),
+            max_sleep_total=max(sleep_total),
+            mean_sleep_total=mean(sleep_total),
+            n=n())
 ```
 
 ## Counts
@@ -114,7 +147,7 @@ Although `summarize()` is helpful, oftentimes we are only interested in counts. 
 For example, if we wanted to count the number of observations for each `vore` category in the `msleep` data frame we could do the following:
 ```{r}
 msleep %>% 
-  count(vore)
+  count(vore) # counts the uniqueobservations in each varianle
 ```
 
 You can even combine multiple variables to get counts. For example, if we wanted to count the number of observations for each `vore` category within each `order` category we could do the following:
@@ -126,18 +159,24 @@ msleep %>%
 The tabyl() function from the janitor package is also very useful for producing counts and percentages.  
 ```{r}
 msleep %>% 
-  tabyl(vore)
+  tabyl(vore) # get some to go with it and gives you the NA
 ```
 
 ## Practice
 1. In the taxonomic order Carnivora, count the number of observations for each conservation status.
 ```{r}
-
+msleep %>% 
+  select(order, conservation) %>% # dont need to select, can also go straight to filter()
+  filter(order=='Carnivora') %>% 
+  count(conservation, sort = T) # sorts by descending order by count
 ```
 
 2. Among herbivores, which taxonomic order is most represented?
 ```{r}
-
+msleep %>% 
+  select(vore, order) %>% 
+  filter(vore=='herbi') %>% 
+  count(order, sort = T)
 ```
 
 ## That's it! Let's take a break and then move on to part 2! 
