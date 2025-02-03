@@ -11,7 +11,7 @@
 
 <meta name="author" content="Itzel Gonzalez" />
 
-<meta name="date" content="2025-02-02" />
+<meta name="date" content="2025-02-03" />
 
 <title>Homework 7</title>
 
@@ -376,7 +376,7 @@ display: none;
 
 <h1 class="title toc-ignore">Homework 7</h1>
 <h4 class="author">Itzel Gonzalez</h4>
-<h4 class="date">2025-02-02</h4>
+<h4 class="date">2025-02-03</h4>
 
 </div>
 
@@ -743,26 +743,23 @@ moderate fishing pressure?</li>
 <ol start="12" style="list-style-type: decimal">
 <li>Perform one analysis of your choice on the fisheries dataframe that
 includes a minimum of three lines of code and two functions. Write a
-seentence or two that explains the intent of your code.</li>
+sentence or two that explains the intent of your code. <strong>Compare
+the minimum, maximum, and average catch for Mexico and
+Guatemala</strong></li>
 </ol>
-<pre class="r"><code>fisheries</code></pre>
-<pre><code>## # A tibble: 376,771 × 10
-##    country common_name               isscaap_group_number isscaap_taxonomic_gr…¹
-##    &lt;chr&gt;   &lt;chr&gt;                                    &lt;dbl&gt; &lt;chr&gt;                 
-##  1 Albania Angelsharks, sand devils…                   38 Sharks, rays, chimaer…
-##  2 Albania Angelsharks, sand devils…                   38 Sharks, rays, chimaer…
-##  3 Albania Angelsharks, sand devils…                   38 Sharks, rays, chimaer…
-##  4 Albania Angelsharks, sand devils…                   38 Sharks, rays, chimaer…
-##  5 Albania Angelsharks, sand devils…                   38 Sharks, rays, chimaer…
-##  6 Albania Angelsharks, sand devils…                   38 Sharks, rays, chimaer…
-##  7 Albania Angelsharks, sand devils…                   38 Sharks, rays, chimaer…
-##  8 Albania Angelsharks, sand devils…                   38 Sharks, rays, chimaer…
-##  9 Albania Angelsharks, sand devils…                   38 Sharks, rays, chimaer…
-## 10 Albania Angelsharks, sand devils…                   38 Sharks, rays, chimaer…
-## # ℹ 376,761 more rows
-## # ℹ abbreviated name: ¹​isscaap_taxonomic_group
-## # ℹ 6 more variables: asfis_species_number &lt;chr&gt;, asfis_species_name &lt;chr&gt;,
-## #   fao_major_fishing_area &lt;dbl&gt;, measure &lt;chr&gt;, year &lt;dbl&gt;, catch &lt;dbl&gt;</code></pre>
+<pre class="r"><code>fisheries %&gt;% 
+  filter(country %in% c(&#39;Mexico&#39;, &#39;Guatemala&#39;)) %&gt;% 
+  group_by(country) %&gt;% 
+  summarize(min_catch=min(catch, na.rm=T), 
+            max_catch=max(catch, na.rm=T),
+            average_catch=mean(catch, na.rm=T), .groups=&#39;keep&#39;) %&gt;% 
+  arrange(-average_catch)</code></pre>
+<pre><code>## # A tibble: 2 × 4
+## # Groups:   country [2]
+##   country   min_catch max_catch average_catch
+##   &lt;chr&gt;         &lt;dbl&gt;     &lt;dbl&gt;         &lt;dbl&gt;
+## 1 Mexico            0       999          28.2
+## 2 Guatemala         0        98          21.0</code></pre>
 </div>
 <div id="push-your-final-code-to-github" class="section level2">
 <h2>Push your final code to GitHub!</h2>

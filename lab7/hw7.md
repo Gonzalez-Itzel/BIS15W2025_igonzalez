@@ -1,7 +1,7 @@
 ---
 title: "Homework 7"
 author: "Itzel Gonzalez"
-date: "2025-02-02"
+date: "2025-02-03"
 output:
   html_document: 
     theme: spacelab
@@ -428,30 +428,26 @@ sharks %>%
 ## 2 moderate                  14.3
 ```
 
-12. Perform one analysis of your choice on the fisheries dataframe that includes a minimum of three lines of code and two functions. Write a seentence or two that explains the intent of your code.
+12. Perform one analysis of your choice on the fisheries dataframe that includes a minimum of three lines of code and two functions. Write a sentence or two that explains the intent of your code.
+**Compare the minimum, maximum, and average catch for Mexico and Guatemala**
 
 ``` r
-fisheries
+fisheries %>% 
+  filter(country %in% c('Mexico', 'Guatemala')) %>% 
+  group_by(country) %>% 
+  summarize(min_catch=min(catch, na.rm=T), 
+            max_catch=max(catch, na.rm=T),
+            average_catch=mean(catch, na.rm=T), .groups='keep') %>% 
+  arrange(-average_catch)
 ```
 
 ```
-## # A tibble: 376,771 × 10
-##    country common_name               isscaap_group_number isscaap_taxonomic_gr…¹
-##    <chr>   <chr>                                    <dbl> <chr>                 
-##  1 Albania Angelsharks, sand devils…                   38 Sharks, rays, chimaer…
-##  2 Albania Angelsharks, sand devils…                   38 Sharks, rays, chimaer…
-##  3 Albania Angelsharks, sand devils…                   38 Sharks, rays, chimaer…
-##  4 Albania Angelsharks, sand devils…                   38 Sharks, rays, chimaer…
-##  5 Albania Angelsharks, sand devils…                   38 Sharks, rays, chimaer…
-##  6 Albania Angelsharks, sand devils…                   38 Sharks, rays, chimaer…
-##  7 Albania Angelsharks, sand devils…                   38 Sharks, rays, chimaer…
-##  8 Albania Angelsharks, sand devils…                   38 Sharks, rays, chimaer…
-##  9 Albania Angelsharks, sand devils…                   38 Sharks, rays, chimaer…
-## 10 Albania Angelsharks, sand devils…                   38 Sharks, rays, chimaer…
-## # ℹ 376,761 more rows
-## # ℹ abbreviated name: ¹​isscaap_taxonomic_group
-## # ℹ 6 more variables: asfis_species_number <chr>, asfis_species_name <chr>,
-## #   fao_major_fishing_area <dbl>, measure <chr>, year <dbl>, catch <dbl>
+## # A tibble: 2 × 4
+## # Groups:   country [2]
+##   country   min_catch max_catch average_catch
+##   <chr>         <dbl>     <dbl>         <dbl>
+## 1 Mexico            0       999          28.2
+## 2 Guatemala         0        98          21.0
 ```
 
 ## Push your final code to GitHub!
