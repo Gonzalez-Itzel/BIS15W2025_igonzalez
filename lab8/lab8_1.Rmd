@@ -59,7 +59,7 @@ life_history_no_nas %>%
 1. Can we use a single approach to deal with NA's in this data set? Given what you learned in the previous lab, how would you manage the NA values?
 ```{r}
 life_history %>% 
-  filter(across(everything(), ))
+  filter(across(everything(),))
 ```
 
 ## `naniar`
