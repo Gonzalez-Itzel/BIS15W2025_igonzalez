@@ -22,15 +22,24 @@ library("tidyverse")
 ## Warm-up
 Use the heartrate data from the previous lab to answer the following questions.  
 ```{r}
-heartrate <- read_csv("data/heartrate.csv")
+heartrate <- read_csv("data/heartrate.csv") 
+
+heartrate
 ```
 
 1. Make a barplot that shows the heartrate for drug a for each patient.
 ```{r}
-
+heartrate %>% 
+  select(patient, a) %>% 
+  ggplot(aes(x=patient, y=a))+ 
+  geom_col()
 ```
 
 2. Make a barplot that shows the average heartrate for each drug.
 ```{r}
-
+heartrate %>% # fix this
+  pivot_longer(-patient, names_to = 'drug', values_to = 'heart_rate') %>%
+  group_by(drug) %>% 
+  summarize(avg_heartrate= mean(heart_rate)) %>% 
+  ggplot(aes(x='drug', y='heart_rate'))+ geom_col()
 ```
