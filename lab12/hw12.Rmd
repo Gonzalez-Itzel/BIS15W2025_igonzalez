@@ -38,9 +38,15 @@ For this assignment, we are going to use the dataset [gapminder](https://cran.r-
 library("gapminder")
 ```
 
-1. Use the function(s) of your choice to get an idea of the overall structure of the data frame, including its dimensions, column names, variable classes, etc. As part of this, determine how NA's are treated in the data.   
+1. Use the function(s) of your choice to get an idea of the overall structure of the data frame, including its dimensions, column names, variable classes, etc. As part of this, determine how NA's are treated in the data 
+```{r}
+summary(gapminder)
+```
 
 2. How many countries are represented in this dataset? Make a table and a plot that shows the number of countries by continent.  
+```{r}
+gapminder
+```
 
 3. Which country has the largest population growth since 1952? Show this as a table.  
 
