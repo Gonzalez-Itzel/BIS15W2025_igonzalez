@@ -1,6 +1,6 @@
 ---
 title: "Lab 12 Homework"
-author: "Your Name Here"
+author: "Itzel Gonzalez"
 date: "`r Sys.Date()`"
 output:
   html_document:
@@ -39,31 +39,150 @@ library("gapminder")
 ```
 
 1. Use the function(s) of your choice to get an idea of the overall structure of the data frame, including its dimensions, column names, variable classes, etc. As part of this, determine how NA's are treated in the data 
+
+**There are no NAs.**
 ```{r}
 summary(gapminder)
 ```
 
 2. How many countries are represented in this dataset? Make a table and a plot that shows the number of countries by continent.  
+
+**There are 142 countries represented in this data set.**
 ```{r}
-gapminder
+gapminder %>% 
+  distinct(country) %>% 
+  count()
 ```
 
+```{r}
+gapminder %>% 
+  group_by(continent) %>% 
+  summarize(n=n_distinct(country))
+```
+
+```{r}
+gapminder %>% 
+  select(country, continent) %>% 
+  distinct() %>% 
+  group_by(continent) %>% 
+  count() %>% 
+  ggplot(aes(x=continent, y=n))+
+  geom_col(fill='plum3')+
+  labs(title='Number of Countries by Continent', x='Continent', y='n')+
+  theme(plot.title = element_text(size = rel(1.5), hjust = 0.5))
+```
 3. Which country has the largest population growth since 1952? Show this as a table.  
 
+**China has the largest population growth since 1952.**
+```{r}
+gapminder %>% 
+  filter(year %in% c(1952, 2007)) %>% 
+  select(country, year, pop) %>% 
+  pivot_wider(names_from = year, values_from = pop)  %>% 
+  mutate(population_growth = `2007` - `1952`) %>% 
+  arrange(-population_growth)
+```
 
-4. Make a plot that shows population growth for the country you found in question #3. This plot should show the change over time.  
+4. Make a plot that shows population growth for the country you found in question 
+```{r}
+gapminder %>% 
+  filter(country=='China') %>% 
+  select(country, year, pop) %>% 
+  ggplot(aes(x=year, y=pop))+
+  geom_line(color='red')+
+  labs(title = "Population Growth in China from 1952 to 2007",
+       x = "Year",
+       y = "Population (n)")+
+  theme(plot.title = element_text(size = rel(1.5), hjust = 0.5))
+```
 
 5. How has global life expectancy changed between 1952 and 2007? Show the min, mean, and max for all countries in the dataset. Show this as a table.  
+```{r}
+gapminder %>%
+  select(country, year, lifeExp) %>% 
+  group_by(country) %>% 
+  summarize(min_lifexp=min(lifeExp, na.rm = TRUE),
+            mean_lifeExp=mean(lifeExp, na.rm = TRUE),
+            max_lifeExp=max(lifeExp, na.rm = TRUE))
+```
 
-6. Make a plot that shows how mean life expectancy has changed over time for each continent. What is your interpretation of what happened in Africa between 1987 and 2002?  
+
+6. Make a plot that shows how mean life expectancy has changed over time for each continent. What is your interpretation of what happened in Africa between 1987 and 2002?
+
+**My interpretation of what happened in Africa between 1987 and 2002 could be that there is a disease outbreak which could have led to a higher mortality rate. Additionally, if this was the case, limited access to health care can also contribute to the plataeu line.**
+```{r}
+gapminder %>% 
+  group_by(continent, year) %>% 
+  summarize(mean_lifeExp = mean(lifeExp, na.rm = TRUE), .groups='drop') %>% 
+  ggplot(aes(x=as.factor(year), y=mean_lifeExp, color= continent, group = continent))+
+  geom_line()+
+  labs(title = "Life Expectancy Over Time by Continent",
+       x = "Year",
+       y = "Mean Life Expectancy (years)")+
+  theme(plot.title = element_text(size = rel(1.5), hjust = 0.5))
+```
+
 
 7. We are interested in the relationship between per capita GDP and life expectancy; i.e. does having more money help you live longer? Show this as a plot.  
 
-8. Which five countries have had the highest GDP per capita growth over the years represented in this dataset? Show this as a table.  
+**According to the plot, having more money helps you live longer. **
+```{r}
+gapminder %>% 
+  ggplot(aes(x=gdpPercap, y=lifeExp))+
+  geom_point()+ scale_x_log10()+
+  geom_smooth(method=lm, se=F, color='red')+
+  labs(title = 'Life Expectancy per Capita GDP', x='Per Capita GDP', y='Life Expectancy (years)')+
+  theme(plot.title = element_text(size = rel(1.5), hjust = 0.5))
+```
 
-9. How does per capita GDP growth compare between these same five countries? Show this as a plot.  
+8. Which five countries have had the highest GDP per capita growth over the years represented in this dataset? Show this as a table. 
+
+**The five countries that have the highest GDP per capita over the years include: Singapore, Norway, Hong Kong,China, Ireland, and Austria.**
+```{r}
+gapminder %>% 
+  filter(year %in% c(1952, 2007)) %>% 
+  select(country, year, gdpPercap) %>% 
+  pivot_wider(names_from = year, values_from = gdpPercap)  %>% 
+  mutate(gdpPercap_growth = `2007` - `1952`) %>% 
+  arrange(-gdpPercap_growth)
+```
+
+9. How does per capita GDP growth compare between these same five countries? Show this as a plot. 
+```{r}
+gapminder %>% 
+  filter(country=="Singapore" | country=="Norway" | country=="Hong Kong, China" | country=="Ireland" | country=="Austria") %>% 
+  select(year, country, gdpPercap) %>% 
+  ggplot(aes(x=as.factor(year), y=gdpPercap, group=country, color=country))+
+  geom_line()+
+  labs(title = "GDP per Capita Growth",
+       x = "Year",
+       y = "GDP per Capita")+
+  theme(plot.title = element_text(size = rel(1.5), hjust = 0.5))
+```
 
 10. Do one analysis of your choice that includes a table and plot as outputs.  
+
+**How does gdp per capita in North American countries compare to a few European countries over the years?**
+```{r}
+gapminder %>% 
+  filter(continent %in% c('Americas', 'Europe')) %>% 
+  filter(country %in% c('United States','Mexico', 'Canada', 'Spain', 'Germany', 'Switzerland')) %>% 
+  select(country, continent, year, gdpPercap) %>% 
+  pivot_wider(names_from = year, values_from = gdpPercap) %>% 
+  arrange(continent)
+```
+
+```{r}
+gapminder %>% 
+  filter(continent %in% c('Americas', 'Europe')) %>% 
+  filter(country %in% c('United States','Mexico', 'Canada', 'Spain', 'Germany', 'Switzerland')) %>% 
+  ggplot(aes(x=year, y=gdpPercap, color=country))+ 
+  geom_line()+
+  labs(title = "GDP per Capita in North America compared to Europe",
+       x = "Year",
+       y = "GDP per Capita")+
+  theme(plot.title = element_text(size = rel(1.5), hjust = 0.5))
+```
 
 ## Knit and Upload
 Please knit your work as a .pdf or .html file and upload to Canvas. Homework is due before the start of the next lab. No late work is accepted. Make sure to use the formatting conventions of RMarkdown to make your report neat and clean! 
